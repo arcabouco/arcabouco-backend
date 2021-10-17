@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  arcabouco-database:
+    image: postgres
+    container_name: arcabouco-database
+    restart: always
+    env_file: .env
+    volumes:
+      - ../postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  arcabouco-back:
+    build: .
+    env_file: .env
+    container_name: arcabouco-back
+    ports:
+      - 3040:3040
+    volumes:
+      - .:/usr/arcabouco-back
+    depends_on:
+      - arcabouco-database
