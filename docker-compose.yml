@@ -6,8 +6,26 @@ services:
     container_name: arcabouco-database
     restart: always
     env_file: .env
+    environment:
+      - POSTGRES_USER=arcabouco
+      - POSTGRES_PASSWORD=MRgtKLcvRxRFfoGxE5Sy
+      - POSTGRES_DB=arcabouco
     volumes:
       - ../postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5431:5432
+
+  arcabouco-dev-database:
+    image: postgres
+    container_name: localhost
+    restart: always
+    env_file: .env
+    environment:
+      - POSTGRES_USER=arcabouco
+      - POSTGRES_PASSWORD=B4NZVi6XhHD56eRr
+      - POSTGRES_DB=arcabouco
+    volumes:
+      - ../dev-postgresql/data:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -21,3 +39,4 @@ services:
       - .:/usr/arcabouco-back
     depends_on:
       - arcabouco-database
+      - arcabouco-dev-database
