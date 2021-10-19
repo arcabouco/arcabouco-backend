@@ -1,36 +1,37 @@
-import { createConnection, getConnectionOptions } from "typeorm";
-import { optionAdjustment } from "./optionAjust";
+import { createConnection, getConnection, getConnectionOptions } from "typeorm";
 
-export const database = async () => {
-  const nodeEnv = process.env.ENV;
-  const isTest = process.env.TEST === "true";
+const init = async () => {
+  const nodeEnv = process.env.ENV || "dev";
 
-  console.log(isTest);
+  const optionFromFile = await getConnectionOptions(
+    nodeEnv === "dev" ? "default" : nodeEnv
+  );
 
-  const optionFromFile = await getConnectionOptions(nodeEnv);
+  console.log(nodeEnv);
 
-  const option = {
-    ...optionFromFile,
-    ...optionAdjustment({ isTest: false, nodeEnv }),
-  };
-
-  const testOption = {
-    ...optionFromFile,
-    ...optionAdjustment({ isTest: true, nodeEnv }),
-  };
-
-  console.log({ option, testOption });
-
-  if (isTest) {
-    console.log("aaaeeeeeeeeeeee");
-    const connection = await createConnection(option);
-    await connection.query("CREATE DATABASE test").catch(() => {});
-    await connection.close();
-
-    const testConnection = await createConnection(testOption);
-    await testConnection.dropDatabase();
-    return testConnection;
-  }
+  const option = { ...optionFromFile, name: "default" };
 
   return await createConnection(option);
 };
+
+const close = async () => {
+  const nodeEnv = process.env.ENV || "dev";
+  const isTest = nodeEnv.match("test");
+
+  const connection = getConnection();
+
+  const entities = connection.entityMetadatas;
+
+  if (isTest) {
+    await Promise.all(
+      entities.map((entity) => {
+        const repository = connection.getRepository(entity.name);
+        return repository.clear();
+      })
+    );
+  }
+
+  await connection.close();
+};
+
+export const database = { init, close };

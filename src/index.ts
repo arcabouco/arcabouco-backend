@@ -3,7 +3,7 @@ import { database } from "./database";
 import { server } from "./server/server";
 
 const main = async () => {
-  await database().catch(console.error);
+  await database.init().catch(console.error);
   server();
 };
 
