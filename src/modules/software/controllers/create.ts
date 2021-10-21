@@ -1,15 +1,17 @@
 import { Response } from "express";
-import { Software } from "../../../entities/Software";
+import { Software } from "../../../database/entities/Software";
 import { RequestBody } from "../../../utils/RequestBody";
 import { SoftwareUsecases } from "../usecases";
 
-type SoftwareInput = Omit<Software, "id">;
+type SoftwareInput = { description: string; link: string; name: string };
 
 export const create = async (
   request: RequestBody<SoftwareInput>,
   response: Response
 ) => {
-  const software = request.body;
+  const { description, link, name } = request.body;
+
+  const software: SoftwareInput = { description, link, name };
 
   //TODO: validation layer
 

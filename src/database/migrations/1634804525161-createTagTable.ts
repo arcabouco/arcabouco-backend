@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class createSoftwareTabl1634478653732 implements MigrationInterface {
+export class createTagTable1634804525161 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "software",
+        name: "tag",
         columns: [
           {
             name: "id",
@@ -17,14 +17,12 @@ export class createSoftwareTabl1634478653732 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "description",
-            type: "varchar",
-            isNullable: true,
+            name: "softwareId",
+            type: "uuid",
           },
           {
-            name: "link",
-            type: "varchar",
-            isNullable: true,
+            name: "tagCategoryId",
+            type: "uuid",
           },
           {
             name: "createdAt",
@@ -37,11 +35,23 @@ export class createSoftwareTabl1634478653732 implements MigrationInterface {
             default: "now()",
           },
         ],
+        foreignKeys: [
+          {
+            columnNames: ["softwareId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "software",
+            onDelete: "CASCADE",
+          },
+          {
+            columnNames: ["tagCategoryId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "tag_category",
+            onDelete: "CASCADE",
+          },
+        ],
       })
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("software");
-  }
+  public async down(queryRunner: QueryRunner): Promise<void> {}
 }

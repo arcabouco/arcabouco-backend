@@ -17,7 +17,7 @@ services:
 
   arcabouco-dev-database:
     image: postgres
-    container_name: localhost
+    container_name: arcabouco-dev-database
     restart: always
     env_file: .env
     environment:

@@ -17,8 +17,9 @@ const options: ConnectionOptions[] = [
     username: "arcabouco",
     password: devPassword,
     database: "arcabouco",
-    entities: ["src/entities/**/*.ts"],
+    entities: ["src/database/entities/**/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
+    logNotifications: true,
     cli: {
       migrationsDir: "src/database/migrations",
     },
@@ -31,8 +32,9 @@ const options: ConnectionOptions[] = [
     username: "arcabouco",
     password: devPassword,
     database: "test",
-    entities: ["src/entities/**/*.ts"],
+    entities: ["src/database/entities/**/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
+    logNotifications: true,
     cli: {
       migrationsDir: "src/database/migrations",
     },
@@ -45,8 +47,9 @@ const options: ConnectionOptions[] = [
     username: "arcabouco",
     password,
     database: "arcabouco",
-    entities: ["src/entities/**/*.ts"],
+    entities: ["src/database/entities/**/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
+    logNotifications: true,
     cli: {
       migrationsDir: "src/database/migrations",
     },
@@ -59,8 +62,9 @@ const options: ConnectionOptions[] = [
     username: "arcabouco",
     password: devPassword,
     database: "test",
-    entities: ["src/entities/**/*.ts"],
+    entities: ["src/database/entities/**/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
+    logNotifications: true,
     cli: {
       migrationsDir: "src/database/migrations",
     },

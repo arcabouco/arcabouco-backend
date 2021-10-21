@@ -7,8 +7,6 @@ const init = async () => {
     nodeEnv === "dev" ? "default" : nodeEnv
   );
 
-  console.log(nodeEnv);
-
   const option = { ...optionFromFile, name: "default" };
 
   return await createConnection(option);
@@ -26,7 +24,8 @@ const close = async () => {
     await Promise.all(
       entities.map((entity) => {
         const repository = connection.getRepository(entity.name);
-        return repository.clear();
+        const table = repository.metadata.tableName;
+        return repository.query(`TRUNCATE TABLE ${table} CASCADE`);
       })
     );
   }

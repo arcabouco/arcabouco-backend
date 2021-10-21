@@ -1,9 +1,15 @@
 import { getCustomRepository } from "typeorm";
-import { Software } from "../../../entities/Software";
-import { SoftwareRepository } from "../repository/repository";
+import { Software } from "../../../database/entities/Software";
+import { SoftwareRepository } from "../repositories/SoftwareRepository";
+
+type CreateSoftwareDTO = {
+  name: string;
+  description: string;
+  link: string;
+};
 
 export const createSoftware = async (
-  software: Omit<Software, "id">
+  software: CreateSoftwareDTO
 ): Promise<Software> => {
   const repository = getCustomRepository(SoftwareRepository);
 

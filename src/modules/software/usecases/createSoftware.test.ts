@@ -5,7 +5,7 @@ import faker from "faker";
 beforeAll(database.init);
 afterAll(database.close);
 
-describe("Software useCase createSoftware", () => {
+describe("Software createSoftware useCase", () => {
   test("can create a software", async () => {
     const software = {
       description: faker.lorem.paragraph(),
