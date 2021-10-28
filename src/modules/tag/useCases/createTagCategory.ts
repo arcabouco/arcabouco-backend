@@ -15,8 +15,6 @@ export const createTagCategory = async (tagCategoryData: CreateTagDTO) => {
     tagCategoryData.name
   );
 
-  console.log(nameAlreadyExists);
-
   if (nameAlreadyExists) throw new Error("Tag category already exists");
 
   const createdTagCategory =

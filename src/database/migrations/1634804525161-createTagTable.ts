@@ -53,5 +53,7 @@ export class createTagTable1634804525161 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable("tag");
+  }
 }

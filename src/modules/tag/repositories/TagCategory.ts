@@ -21,12 +21,9 @@ export class TagCategoryRepository extends AbstractRepository<TagCategory> {
     return await this.repository.save(newTagCategory);
   }
 
-  async findByName(name: string): Promise<TagCategory> {
-    console.log({ name });
-
-    return await this.repository
+  findByName = async (name: string): Promise<TagCategory> =>
+    await this.repository
       .createQueryBuilder()
       .where(`name ~* :name`, { name })
       .getOne();
-  }
 }
