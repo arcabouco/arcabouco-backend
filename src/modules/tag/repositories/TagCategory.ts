@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 
-import { AbstractRepository, EntityRepository } from "typeorm";
+import { AbstractRepository, EntityRepository, FindConditions } from "typeorm";
 import { TagCategory } from "../../../database/entities/TagCategory";
 import { pipe } from "fp-ts/function";
 import T from "fp-ts/Task";
@@ -10,6 +10,10 @@ type CreateAndSaveDTO = {
   description: string;
   isMultiTag: boolean;
 };
+
+type findAll = (
+  findConditions: FindConditions<TagCategory> | FindConditions<TagCategory>[]
+) => Promise<TagCategory[]>;
 
 @EntityRepository(TagCategory)
 export class TagCategoryRepository extends AbstractRepository<TagCategory> {
@@ -21,9 +25,14 @@ export class TagCategoryRepository extends AbstractRepository<TagCategory> {
     return await this.repository.save(newTagCategory);
   }
 
-  findByName = async (name: string): Promise<TagCategory> =>
+  fetchByName = async (name: string): Promise<TagCategory> =>
     await this.repository
       .createQueryBuilder()
       .where(`name ~* :name`, { name })
       .getOne();
+
+  fetchAll: findAll = async (findConditions) =>
+    this.repository.find({
+      where: findConditions,
+    });
 }

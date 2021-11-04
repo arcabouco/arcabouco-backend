@@ -11,7 +11,7 @@ type CreateTagDTO = {
 export const createTagCategory = async (tagCategoryData: CreateTagDTO) => {
   const tagCategoryRepository = getCustomRepository(TagCategoryRepository);
 
-  const nameAlreadyExists = await tagCategoryRepository.findByName(
+  const nameAlreadyExists = await tagCategoryRepository.fetchByName(
     tagCategoryData.name
   );
 
