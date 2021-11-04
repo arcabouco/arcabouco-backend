@@ -3,7 +3,8 @@ import { TagController } from "./controllers";
 
 const router = Router();
 
-router.post("/tags/categories", TagController.createTagCategory);
+router.post("/categories", TagController.createTagCategory);
+router.get("/categories", TagController.listTagCategories);
 router.post(
   "/softwares/:softwareId/categories/:categoryId/tags",
   TagController.createTag
