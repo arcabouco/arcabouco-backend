@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
@@ -24,7 +26,7 @@ export class Software {
   @Column({ nullable: true })
   link: string;
 
-  @OneToMany((type) => Tag, (tag) => tag.software)
+  @ManyToMany((type) => Tag, (Tag) => Tag.softwares)
   tags: Tag[];
 
   @CreateDateColumn()

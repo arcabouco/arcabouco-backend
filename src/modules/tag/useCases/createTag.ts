@@ -19,6 +19,7 @@ export const createTag = async (input: CreateTagDTO) => {
     softwareId,
     categoryId,
   });
+
   const isNotMulti = !softwareTags?.[0]?.tagCategory?.isMultiTag;
   if (isNotMulti && softwareTags.length) throw new Error("Tag limit");
 

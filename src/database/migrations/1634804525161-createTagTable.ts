@@ -17,10 +17,6 @@ export class createTagTable1634804525161 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "softwareId",
-            type: "uuid",
-          },
-          {
             name: "tagCategoryId",
             type: "uuid",
           },
@@ -36,12 +32,6 @@ export class createTagTable1634804525161 implements MigrationInterface {
           },
         ],
         foreignKeys: [
-          {
-            columnNames: ["softwareId"],
-            referencedColumnNames: ["id"],
-            referencedTableName: "software",
-            onDelete: "CASCADE",
-          },
           {
             columnNames: ["tagCategoryId"],
             referencedColumnNames: ["id"],

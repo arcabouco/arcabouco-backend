@@ -5,6 +5,7 @@ import { database } from "../../../database";
 import { Software } from "../../../database/entities/Software";
 import { TagCategory } from "../../../database/entities/TagCategory";
 import { SoftwareUsecases } from "../../software/usecases";
+import * as R from "ramda";
 
 let software: Software;
 let notMultiTagCategory: TagCategory;
@@ -56,7 +57,8 @@ describe("Tag createTag UseCase", () => {
     tags.forEach((tag) => {
       expect(tag).toHaveProperty("id");
       expect(tag).toHaveProperty("tagCategoryId", multiTagCategory.id);
-      expect(tag).toHaveProperty("softwareId", software.id);
+      expect(tag.softwares).toHaveLength(1);
+      expect(tag.softwares[0].id).toBe(software.id);
     });
   });
 

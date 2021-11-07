@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { AbstractRepository, Like } from "typeorm";
+import { AbstractRepository, In } from "typeorm";
 
 import { EntityRepository, Repository } from "typeorm";
 import { Software } from "../../../database/entities/Software";
@@ -10,6 +10,10 @@ type CreateAndSaveDTO = {
   link: string;
 };
 
+type fetchOne = (input: { id: string }) => Promise<Software>;
+
+type findAll = (input: { tags?: string[] }) => Promise<Software[]>;
+
 @EntityRepository(Software)
 export class SoftwareRepository extends AbstractRepository<Software> {
   createAndSave(softwareToCreate: CreateAndSaveDTO) {
@@ -18,4 +22,20 @@ export class SoftwareRepository extends AbstractRepository<Software> {
 
     return this.repository.save(softwareEntity);
   }
+
+  findAll: findAll = async ({ tags }) => {
+    let softwareQueryBuilder = this.createQueryBuilder(
+      "software"
+    ).leftJoinAndSelect("software.tags", "tag");
+
+    if (tags?.length)
+      softwareQueryBuilder.where("tag.id IN (:...tags)", { tags });
+
+    return await softwareQueryBuilder.getMany();
+  };
+
+  fetchOne: fetchOne = async ({ id }) =>
+    this.repository.findOne({
+      where: { id },
+    });
 }

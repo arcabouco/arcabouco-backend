@@ -2,6 +2,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -17,16 +20,15 @@ export class Tag {
   @Column()
   name: string;
 
-  @Column()
-  softwareId: string;
-
-  @ManyToOne((type) => Software, (software) => software.tags)
-  software: Software;
+  @ManyToMany((type) => Software, (Software) => Software.tags)
+  @JoinTable()
+  softwares: Software[];
 
   @Column()
   tagCategoryId: string;
 
   @ManyToOne((type) => TagCategory, (category) => category.tags)
+  @JoinColumn()
   tagCategory: TagCategory;
 
   @CreateDateColumn()
