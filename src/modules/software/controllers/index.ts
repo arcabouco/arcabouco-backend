@@ -1,9 +1,9 @@
 import { create } from "./create";
-import { remove } from "./remove";
+import { get } from "./get";
 import { list } from "./list";
 
 export const SoftwareController = {
   create,
-  remove,
+  get,
   list,
 };
