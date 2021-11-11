@@ -6,7 +6,7 @@ import {
   createConnection,
   getConnectionOptions,
 } from "typeorm";
-
+console.log(process.env.ENV)
 const nodeEnv = process.env.ENV || "test-dev";
 
 getConnectionOptions(nodeEnv).then(async (optionFromFile) => {
@@ -18,7 +18,7 @@ getConnectionOptions(nodeEnv).then(async (optionFromFile) => {
   } as ConnectionOptions;
 
   const temporaryConnection = await createConnection(temporaryOption);
-  await temporaryConnection.query("CREATE DATABASE test").catch(() => {});
+  await temporaryConnection.query("CREATE DATABASE test").catch(() => { });
   await temporaryConnection.close();
 
   const testConnection = await createConnection(option);

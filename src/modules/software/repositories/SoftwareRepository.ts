@@ -39,4 +39,14 @@ export class SoftwareRepository extends AbstractRepository<Software> {
       where: { id },
       relations: ["tags", "tags.tagCategory"],
     });
+
+  async delete(input: { id: string }) {
+    const { id } = input
+    const softwareToDelete = await this.repository.findOne(id)
+
+    if (!softwareToDelete) throw new Error("Software to delete not exists.")
+
+    await this.repository.delete({ id })
+    return softwareToDelete
+  }
 }
