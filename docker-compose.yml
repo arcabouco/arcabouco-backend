@@ -34,7 +34,7 @@ services:
     env_file: .env
     container_name: arcabouco-back
     ports:
-      - 3040:3040
+      - 3040:80
     volumes:
       - .:/usr/arcabouco-back
     depends_on:
