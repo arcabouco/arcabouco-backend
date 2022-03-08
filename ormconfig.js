@@ -1,14 +1,14 @@
-import { config } from "dotenv";
-import { existsSync } from "fs";
-import { ConnectionOptions } from "typeorm";
-config();
+require('dotenv').config()
+const { existsSync } = require( "fs");
 
 const isDocker = existsSync("/.dockerenv");
 
 const password = process.env.DB_PASSWORD;
 const devPassword = process.env.DEV_DB_PASSWORD;
 
-const options: ConnectionOptions[] = [
+console.log({isDocker})
+
+const options = [
   {
     name: "default", //dev
     type: "postgres",
@@ -42,16 +42,16 @@ const options: ConnectionOptions[] = [
   {
     name: "prod",
     type: "postgres",
-    host: isDocker ? "arcabouco-database" : "localhost",
-    port: 5431,
+    host: "arcabouco-database",
+    port: isDocker ? 5432 : 5431,
     username: "arcabouco",
     password,
     database: "arcabouco",
-    entities: ["src/database/entities/**/*.ts"],
-    migrations: ["src/database/migrations/*.ts"],
+    entities: ["dist/database/entities/**/*.js"],
+    migrations: ["dist/database/migrations/*.js"],
     logNotifications: true,
     cli: {
-      migrationsDir: "src/database/migrations",
+      migrationsDir: "dist/database/migrations",
     },
   },
   {
@@ -71,4 +71,4 @@ const options: ConnectionOptions[] = [
   },
 ];
 
-export default options;
+module.exports = options;

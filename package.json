@@ -6,7 +6,8 @@
   "author": "Jonathan Rodrigues <jonarc06@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ENV=prod ts-node src/index.ts",
+    "prestart": "ENV=prod typeorm migration:run -c prod",
+    "start": "ENV=prod node dist/index.js",
     "dev": "ENV=dev ts-node-dev -T src/index.ts",
     "pretest:prod": "ENV=test-prod ts-node src/jest/afterAll.ts",
     "test:prod": "jest --runInBand",
