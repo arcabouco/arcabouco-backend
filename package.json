@@ -6,13 +6,10 @@
   "author": "Jonathan Rodrigues <jonarc06@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prestart": "ENV=prod typeorm migration:run -c prod",
-    "start": "ENV=prod node dist/index.js",
+    "preprod": "ENV=prod typeorm migration:run --connection prod",
+    "prod": "ENV=prod node dist/index.js",
     "dev": "ENV=dev ts-node-dev -T src/index.ts",
-    "pretest:prod": "ENV=test-prod ts-node src/jest/afterAll.ts",
-    "test:prod": "jest --runInBand",
-    "pretest": "ENV=test-dev ts-node src/jest/afterAll.ts",
-    "test": "ENV=test-dev jest --watch --runInBand",
+    "test": "ENV=test jest --watch --runInBand",
     "typeorm": "ENV=dev node --require ts-node/register ./node_modules/typeorm/cli.js",
     "build": "tsc"
   },

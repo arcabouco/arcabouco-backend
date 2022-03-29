@@ -1,37 +1,16 @@
-require('dotenv').config()
-const { existsSync } = require( "fs");
-
-const isDocker = existsSync("/.dockerenv");
+require("dotenv").config();
 
 const password = process.env.DB_PASSWORD;
-const devPassword = process.env.DEV_DB_PASSWORD;
-
-console.log({isDocker})
 
 const options = [
   {
-    name: "default", //dev
+    name: "default",
     type: "postgres",
-    host: isDocker ? "arcabouco-dev-database" : "localhost",
+    host: "localhost",
     port: 5432,
     username: "arcabouco",
-    password: devPassword,
+    password: "arcabouco",
     database: "arcabouco",
-    entities: ["src/database/entities/**/*.ts"],
-    migrations: ["src/database/migrations/*.ts"],
-    logNotifications: true,
-    cli: {
-      migrationsDir: "src/database/migrations",
-    },
-  },
-  {
-    name: "test-dev",
-    type: "postgres",
-    host: isDocker ? "arcabouco-dev-database" : "localhost",
-    port: 5432,
-    username: "arcabouco",
-    password: devPassword,
-    database: "test",
     entities: ["src/database/entities/**/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
     logNotifications: true,
@@ -42,8 +21,8 @@ const options = [
   {
     name: "prod",
     type: "postgres",
-    host: "arcabouco-database",
-    port: isDocker ? 5432 : 5431,
+    host: "db.arcabouco.org",
+    port: 5432,
     username: "arcabouco",
     password,
     database: "arcabouco",
@@ -55,18 +34,18 @@ const options = [
     },
   },
   {
-    name: "test-prod",
+    name: "test",
     type: "postgres",
-    host: isDocker ? "arcabouco-dev-database" : "localhost",
+    host: "localhost",
     port: 5432,
     username: "arcabouco",
-    password: devPassword,
+    password: "arcabouco",
     database: "test",
-    entities: ["src/database/entities/**/*.ts"],
-    migrations: ["src/database/migrations/*.ts"],
+    entities: ["dist/database/entities/**/*.ts"],
+    migrations: ["dist/database/migrations/*.ts"],
     logNotifications: true,
     cli: {
-      migrationsDir: "src/database/migrations",
+      migrationsDir: "dist/database/migrations",
     },
   },
 ];
