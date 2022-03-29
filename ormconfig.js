@@ -41,11 +41,11 @@ const options = [
     username: "arcabouco",
     password: "arcabouco",
     database: "test",
-    entities: ["dist/database/entities/**/*.ts"],
-    migrations: ["dist/database/migrations/*.ts"],
+    entities: ["src/database/entities/**/*.ts"],
+    migrations: ["src/database/migrations/*.ts"],
     logNotifications: true,
     cli: {
-      migrationsDir: "dist/database/migrations",
+      migrationsDir: "src/database/migrations",
     },
   },
 ];

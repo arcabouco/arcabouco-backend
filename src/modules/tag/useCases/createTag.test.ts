@@ -1,11 +1,9 @@
 import faker from "faker";
-import { apFirst } from "fp-ts/lib/Either";
 import { TagUseCases } from ".";
 import { database } from "../../../database";
 import { Software } from "../../../database/entities/Software";
 import { TagCategory } from "../../../database/entities/TagCategory";
 import { SoftwareUsecases } from "../../software/usecases";
-import * as R from "ramda";
 
 let software: Software;
 let notMultiTagCategory: TagCategory;

@@ -2,15 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Generated,
-  JoinTable,
+  JoinColumn,
   ManyToMany,
-  OneToMany,
-  PrimaryColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Tag } from "./Tag";
+import { User } from "./User";
 
 @Entity()
 export class Software {
@@ -28,6 +27,13 @@ export class Software {
 
   @ManyToMany((type) => Tag, (Tag) => Tag.softwares)
   tags: Tag[];
+
+  @Column()
+  @JoinColumn({ name: "createdBy" })
+  createdBy: string;
+
+  @ManyToOne((type) => User)
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;
