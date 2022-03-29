@@ -7,11 +7,11 @@
   "license": "MIT",
   "scripts": {
     "preprod": "ENV=prod typeorm migration:run --connection prod",
-    "prod": "ENV=prod node dist/index.js",
-    "dev": "ENV=dev ts-node-dev -T src/index.ts",
+    "prod": "ENV=prod TS_NODE_BASEURL=./dist node -r tsconfig-paths/register dist/index.js",
+    "dev": "ENV=dev ts-node-dev -T -r tsconfig-paths/register src/index.ts",
     "pretest": "ts-node src/jest/afterAll.ts",
     "test": "ENV=test jest --watch --runInBand",
-    "typeorm": "ENV=dev node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "typeorm": "ENV=dev node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc"
   },
   "devDependencies": {
@@ -44,6 +44,7 @@
     "ramda": "^0.27.1",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.3.0",
+    "tsconfig-paths": "^3.14.1",
     "typeorm": "^0.2.38",
     "uuid": "^8.3.2"
   }

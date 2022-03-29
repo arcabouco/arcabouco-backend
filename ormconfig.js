@@ -11,7 +11,7 @@ const options = [
     username: "arcabouco",
     password: "arcabouco",
     database: "arcabouco",
-    entities: ["src/database/entities/**/*.ts"],
+    entities: ["src/database/entities/**/*.entity.ts"],
     migrations: ["src/database/migrations/*.ts"],
     logNotifications: true,
     cli: {
@@ -26,7 +26,7 @@ const options = [
     username: "arcabouco",
     password,
     database: "arcabouco",
-    entities: ["dist/database/entities/**/*.js"],
+    entities: ["dist/database/entities/**/*.entity.js"],
     migrations: ["dist/database/migrations/*.js"],
     logNotifications: true,
     cli: {
@@ -41,7 +41,7 @@ const options = [
     username: "arcabouco",
     password: "arcabouco",
     database: "test",
-    entities: ["src/database/entities/**/*.ts"],
+    entities: ["src/database/entities/**/*.entity.ts"],
     migrations: ["src/database/migrations/*.ts"],
     logNotifications: true,
     cli: {

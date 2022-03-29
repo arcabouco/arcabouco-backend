@@ -1,10 +1,10 @@
 import "reflect-metadata";
-import { database } from "./database";
-import { server } from "./server/server";
+import { Connection } from "./Database";
+import * as Server from "Server";
 
 const main = async () => {
-  await database.init().catch(console.error);
-  server();
+  await Connection.init().catch(console.error);
+  Server.init();
 };
 
 main().catch(console.error);
