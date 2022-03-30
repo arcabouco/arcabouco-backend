@@ -6,15 +6,9 @@ import { P } from "Util";
 
 const repository = () => getRepository(User);
 
-type toSafeUser = (
-  user: User
-) => Omit<User, "password" | "signupToken" | "recoveryToken">;
+type toSafeUser = (user: User) => Omit<User, "password">;
 
-const toSafeUser: toSafeUser = R.omit([
-  "password",
-  "signupToken",
-  "recoveryToken",
-]);
+const toSafeUser: toSafeUser = R.omit(["password"]);
 
 export const create = (user: User) =>
   pipe(repository().save(user), R.andThen(toSafeUser));
@@ -28,3 +22,6 @@ export const update = (user: Partial<User> & { id: string }) =>
 
 export const findOne = (option: FindOneOptions<User>) =>
   pipe(repository().findOne(option));
+
+export const findOneOrFail = (option: FindOneOptions<User>) =>
+  repository().findOneOrFail(option);

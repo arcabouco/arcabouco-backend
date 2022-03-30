@@ -35,7 +35,7 @@ export class SoftwareRepository extends AbstractRepository<Software> {
   };
 
   fetchOne: fetchOne = async ({ id }) =>
-    this.repository.findOne({
+    this.repository.findOneOrFail({
       where: { id },
       relations: ["tags", "tags.tagCategory"],
     });

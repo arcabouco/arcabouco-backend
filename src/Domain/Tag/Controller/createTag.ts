@@ -23,5 +23,5 @@ export const createTag = async (
     softwareId,
   });
 
-  return response.json(tag);
+  return response.json({ tag });
 };

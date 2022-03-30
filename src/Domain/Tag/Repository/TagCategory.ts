@@ -27,7 +27,7 @@ export class TagCategoryRepository extends AbstractRepository<TagCategory> {
     await this.repository
       .createQueryBuilder()
       .where(`name ~* :name`, { name })
-      .getOne();
+      .getOneOrFail();
 
   fetchAll: findAll = async (findConditions) =>
     this.repository.find({

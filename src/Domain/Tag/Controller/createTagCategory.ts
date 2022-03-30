@@ -18,5 +18,5 @@ export const createTagCategory = async (
 
   const createdTagCategory = await TagUsecase.createTagCategory(tagCategory);
 
-  return response.status(201).json(createdTagCategory);
+  return response.status(201).json({ tagCategory: createTagCategory });
 };

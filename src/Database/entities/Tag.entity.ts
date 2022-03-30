@@ -31,8 +31,8 @@ export class Tag {
   tagCategory: TagCategory;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 }

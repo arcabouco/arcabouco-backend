@@ -7,5 +7,5 @@ export const listTagCategories = async (
 ) => {
   const tagCategories = await TagUsecase.listTagCategories();
 
-  return response.json(tagCategories);
+  return response.json({ tagCategories });
 };

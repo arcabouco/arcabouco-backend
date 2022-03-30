@@ -8,7 +8,7 @@
   "scripts": {
     "preprod": "ENV=prod typeorm migration:run --connection prod",
     "prod": "ENV=prod TS_NODE_BASEURL=./dist node -r tsconfig-paths/register dist/index.js",
-    "dev": "ENV=dev ts-node-dev -T -r tsconfig-paths/register src/index.ts",
+    "dev": "ENV=dev ts-node-dev -r tsconfig-paths/register src/index.ts",
     "pretest": "ts-node -T -r tsconfig-paths/register src/Jest/afterAll.ts",
     "test": "ENV=test jest --watch --runInBand",
     "typeorm": "ENV=dev node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
@@ -42,6 +42,7 @@
     "handlebars": "^4.7.7",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
+    "query-string": "^7.1.1",
     "ramda": "^0.27.1",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.3.0",

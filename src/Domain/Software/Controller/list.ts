@@ -9,5 +9,5 @@ export const list = async (
 
   const softwares = await SoftwareUsecase.listSoftwares({ tags });
 
-  return response.json(softwares);
+  return response.json({ softwares });
 };

@@ -9,5 +9,5 @@ export const signup = async (
 ) => {
   const newUser = await UserUsecase.signup(request.body);
 
-  return response.json(newUser);
+  return response.json({ user: newUser });
 };

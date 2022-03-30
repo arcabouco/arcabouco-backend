@@ -29,6 +29,7 @@ export const signupSend = (data: SignupTemplate) => {
   return AwsSes.sendEmail({ html, subject, to: [data.user.email] });
 };
 
-// signupSend({ user: { name: "jon" }, confirmationUrl: "https://google.com" })(
-//   "jonarc06@gmail.com"
-// );
+// signupSend({
+//   user: { name: "jon", email: "gamerjonasbr@gmail.com" },
+//   confirmationUrl: "https://google.com",
+// });

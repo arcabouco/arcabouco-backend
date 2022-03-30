@@ -18,5 +18,5 @@ export const create = async (
 
   //TODO: presentation layer
 
-  return response.status(201).json(createdSoftware);
+  return response.status(201).json({ software: createdSoftware });
 };

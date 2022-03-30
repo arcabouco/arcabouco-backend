@@ -28,7 +28,7 @@ export class TagRepository extends AbstractRepository<Tag> {
 
     const createdTag = await this.repository.save(entity);
 
-    return this.repository.findOne({
+    return this.repository.findOneOrFail({
       where: { id: createdTag.id },
       relations: ["softwares"],
     });

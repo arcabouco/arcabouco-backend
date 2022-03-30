@@ -9,5 +9,5 @@ export const get = async (
 
   const software = await SoftwareUsecase.getSoftware({ softwareId });
 
-  return response.json(software);
+  return response.json({ software });
 };

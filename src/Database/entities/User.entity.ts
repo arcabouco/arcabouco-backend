@@ -29,20 +29,20 @@ export class User {
   password: string;
 
   @Column({ nullable: true, type: "varchar" })
-  signupToken?: string;
+  signupToken?: string | null;
 
   @Column({ nullable: true, type: "varchar" })
-  recoveryToken?: string;
+  recoveryToken?: string | null;
 
   @Column({ type: "enum", enum: userRoles })
   role: UserRole;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 }
