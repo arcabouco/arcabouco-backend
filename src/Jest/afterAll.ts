@@ -21,6 +21,6 @@ getConnectionOptions("test").then(async (optionFromFile) => {
 
   const testConnection = await createConnection(option);
   await testConnection.dropDatabase();
-  await testConnection.runMigrations();
+  await testConnection.runMigrations({});
   await testConnection.close();
 });

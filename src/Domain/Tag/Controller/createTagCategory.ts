@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { RequestBody } from "Util/RequestBody";
+import { E } from "Util";
 import * as TagUsecase from "Domain/Tag/Usecase";
 
 type TagCategoryInput = {
@@ -9,7 +9,7 @@ type TagCategoryInput = {
 };
 
 export const createTagCategory = async (
-  request: RequestBody<TagCategoryInput>,
+  request: E.RequestBody<TagCategoryInput>,
   response: Response
 ) => {
   const { description, isMultiTag, name } = request.body;

@@ -9,12 +9,13 @@
     "preprod": "ENV=prod typeorm migration:run --connection prod",
     "prod": "ENV=prod TS_NODE_BASEURL=./dist node -r tsconfig-paths/register dist/index.js",
     "dev": "ENV=dev ts-node-dev -T -r tsconfig-paths/register src/index.ts",
-    "pretest": "ts-node src/jest/afterAll.ts",
+    "pretest": "ts-node -T -r tsconfig-paths/register src/Jest/afterAll.ts",
     "test": "ENV=test jest --watch --runInBand",
     "typeorm": "ENV=dev node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/faker": "^5.5.9",

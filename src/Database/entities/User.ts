@@ -28,11 +28,11 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
-  signupToken: string;
+  @Column({ nullable: true, type: "varchar" })
+  signupToken?: string;
 
-  @Column({ nullable: true })
-  recoveryToken: string;
+  @Column({ nullable: true, type: "varchar" })
+  recoveryToken?: string;
 
   @Column({ type: "enum", enum: userRoles })
   role: UserRole;

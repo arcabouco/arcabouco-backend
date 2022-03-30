@@ -11,11 +11,11 @@ const options = [
     username: "arcabouco",
     password: "arcabouco",
     database: "arcabouco",
-    entities: ["src/database/entities/**/*.entity.ts"],
-    migrations: ["src/database/migrations/*.ts"],
+    entities: ["src/Database/entities/**/*.ts"],
+    migrations: ["src/Database/migrations/*.ts"],
     logNotifications: true,
     cli: {
-      migrationsDir: "src/database/migrations",
+      migrationsDir: "src/Database/migrations",
     },
   },
   {
@@ -26,11 +26,11 @@ const options = [
     username: "arcabouco",
     password,
     database: "arcabouco",
-    entities: ["dist/database/entities/**/*.entity.js"],
-    migrations: ["dist/database/migrations/*.js"],
+    entities: ["dist/Database/entities/**/*.js"],
+    migrations: ["dist/Database/migrations/*.js"],
     logNotifications: true,
     cli: {
-      migrationsDir: "dist/database/migrations",
+      migrationsDir: "dist/Database/migrations",
     },
   },
   {
@@ -41,11 +41,11 @@ const options = [
     username: "arcabouco",
     password: "arcabouco",
     database: "test",
-    entities: ["src/database/entities/**/*.entity.ts"],
-    migrations: ["src/database/migrations/*.ts"],
+    entities: ["src/Database/entities/**/*.ts"],
+    migrations: ["src/Database/migrations/*.ts"],
     logNotifications: true,
     cli: {
-      migrationsDir: "src/database/migrations",
+      migrationsDir: "src/Database/migrations",
     },
   },
 ];

@@ -1,11 +1,11 @@
 import { Response } from "express";
-import { RequestBody } from "Util/RequestBody";
+import { E } from "Util";
 import * as SoftwareUsecase from "Domain/Software/Usecase";
 
 type SoftwareInput = { description: string; link: string; name: string };
 
 export const create = async (
-  request: RequestBody<SoftwareInput>,
+  request: E.RequestBody<SoftwareInput>,
   response: Response
 ) => {
   const { description, link, name } = request.body;

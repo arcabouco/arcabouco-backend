@@ -66,9 +66,7 @@ export default {
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: ["node_modules", "src"],
 
   // An array of file extensions your modules use
   // moduleFileExtensions: [
@@ -81,7 +79,9 @@ export default {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  // moduleNameMapper: {
+  //   "@/(.*)": "<rootDir>/src/$1",
+  // },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -191,5 +191,5 @@ export default {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-  testTimeout: 10000
+  testTimeout: 10000,
 };

@@ -1,3 +1,6 @@
+// import { config } from "dotenv";
+// config();
+
 import handlebars from "handlebars";
 
 import fs from "fs";
@@ -8,7 +11,9 @@ import * as AwsSes from "../../AwsSes";
 type SignupTemplate = {
   user: {
     name: string;
+    email: string;
   };
+  confirmationUrl: string;
 };
 
 const signupTemplate = pipe(
@@ -17,11 +22,13 @@ const signupTemplate = pipe(
   (templateText) => handlebars.compile<SignupTemplate>(templateText)
 );
 
-export const signupSend = (data: SignupTemplate) => (to: string) => {
+export const signupSend = (data: SignupTemplate) => {
   const html = signupTemplate(data);
   const subject = "Signing Request";
 
-  return AwsSes.sendEmail({ html, subject, to: [to] });
+  return AwsSes.sendEmail({ html, subject, to: [data.user.email] });
 };
 
-signupSend({ user: { name: "jon" } })("ae");
+// signupSend({ user: { name: "jon" }, confirmationUrl: "https://google.com" })(
+//   "jonarc06@gmail.com"
+// );
