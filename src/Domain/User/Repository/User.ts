@@ -8,7 +8,7 @@ const repository = () => getRepository(User);
 
 type toSafeUser = (user: User) => Omit<User, "password">;
 
-const toSafeUser: toSafeUser = R.omit(["password"]);
+export const toSafeUser: toSafeUser = R.omit(["password"]);
 
 export const create = (user: User) =>
   pipe(repository().save(user), R.andThen(toSafeUser));

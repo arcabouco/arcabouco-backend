@@ -34,10 +34,10 @@ export class Software {
   tags: Tag[];
 
   @Column()
-  @JoinColumn({ name: "createdBy" })
   createdBy: string;
 
   @ManyToOne((type) => User)
+  @JoinColumn({ name: "createdBy" })
   user: User;
 
   @CreateDateColumn()
@@ -46,3 +46,5 @@ export class Software {
   @UpdateDateColumn()
   updatedAt?: Date;
 }
+
+export type SoftwareMin = Omit<Software, "tags" | "user">;

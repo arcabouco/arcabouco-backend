@@ -17,7 +17,7 @@ export class TagCategory {
   name: string;
 
   @Column({ nullable: true })
-  description: string;
+  description?: string;
 
   @Column()
   isMultiTag: boolean;
@@ -31,3 +31,5 @@ export class TagCategory {
   @UpdateDateColumn()
   updatedAt?: Date;
 }
+
+export type TagCategoryMin = Omit<TagCategory, "tags">;

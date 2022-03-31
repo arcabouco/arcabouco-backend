@@ -1,23 +1,20 @@
-import { getCustomRepository } from "typeorm";
-import { TagCategoryRepository } from "../Repository/TagCategory";
+import * as TagRepository from "Domain/Tag/Repository";
+import { v4 } from "uuid";
 
-type CreateTagDTO = {
+export const createTagCategory = async (input: {
   name: string;
   description: string;
   isMultiTag: boolean;
-};
-
-export const createTagCategory = async (tagCategoryData: CreateTagDTO) => {
-  const tagCategoryRepository = getCustomRepository(TagCategoryRepository);
-
-  const nameAlreadyExists = await tagCategoryRepository.fetchByName(
-    tagCategoryData.name
-  );
+}) => {
+  const nameAlreadyExists = await TagRepository.findCategoryByName(input.name);
 
   if (nameAlreadyExists) throw new Error("Tag category already exists");
 
-  const createdTagCategory =
-    tagCategoryRepository.createAndSave(tagCategoryData);
+  const createdTagCategory = TagRepository.createCategory({
+    id: v4(),
+    isMultiTag: input.isMultiTag,
+    name: input.name,
+  });
 
   return createdTagCategory;
 };

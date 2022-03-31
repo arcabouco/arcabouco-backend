@@ -1,4 +1,10 @@
-import { AbstractRepository, EntityRepository } from "typeorm";
+import {
+  AbstractRepository,
+  EntityRepository,
+  FindOneOptions,
+  getRepository,
+  ILike,
+} from "typeorm";
 import { v4 } from "uuid";
 import { Tag } from "Database/entities";
 
@@ -12,6 +18,41 @@ type GetSoftwareTagsDTO = {
   softwareId: string;
   categoryId?: string;
 };
+
+export type TagMin = Omit<Tag, "softwares" | "tagCategory">;
+
+const repository = () => getRepository(Tag);
+
+export const createTag = async (tag: TagMin) => repository().save(tag);
+
+export const findOneTag = (option: FindOneOptions<Tag>) =>
+  repository().findOne(option);
+
+export const findByName = async (input: {
+  tagName: string;
+  categoryId: string;
+}): Promise<TagMin | undefined> => {
+  const { categoryId, tagName } = input;
+
+  return repository().findOne({
+    where: {
+      name: ILike(tagName),
+      tagCategoryId: categoryId,
+    },
+  });
+};
+
+export const bySoftware = async ({
+  softwareId,
+  categoryId,
+}: GetSoftwareTagsDTO): Promise<Tag[]> =>
+  repository()
+    .createQueryBuilder("tag")
+    .leftJoinAndSelect("tag.softwares", "software")
+    .leftJoinAndSelect("tag.tagCategory", "tagCategory")
+    .where("software.id = :softwareId", { softwareId })
+    .andWhere("tagCategory.id = :categoryId", { categoryId })
+    .getMany();
 
 @EntityRepository(Tag)
 export class TagRepository extends AbstractRepository<Tag> {
@@ -33,22 +74,4 @@ export class TagRepository extends AbstractRepository<Tag> {
       relations: ["softwares"],
     });
   };
-
-  findByName = async (name: string) =>
-    await this.repository
-      .createQueryBuilder()
-      .where(`name ~* :name`, { name })
-      .getOne();
-
-  softwareTags = async ({
-    softwareId,
-    categoryId,
-  }: GetSoftwareTagsDTO): Promise<Tag[]> =>
-    this.repository
-      .createQueryBuilder("tag")
-      .leftJoinAndSelect("tag.softwares", "software")
-      .leftJoinAndSelect("tag.tagCategory", "tagCategory")
-      .where("software.id = :softwareId", { softwareId })
-      .andWhere("tagCategory.id = :categoryId", { categoryId })
-      .getMany();
 }

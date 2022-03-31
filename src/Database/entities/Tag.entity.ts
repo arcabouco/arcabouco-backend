@@ -20,7 +20,7 @@ export class Tag {
   name: string;
 
   @ManyToMany((type) => Software, (Software) => Software.tags)
-  @JoinTable()
+  @JoinTable({ name: "software_tag" })
   softwares: Software[];
 
   @Column()
@@ -36,3 +36,5 @@ export class Tag {
   @UpdateDateColumn()
   updatedAt?: Date;
 }
+
+export type TagMin = Omit<Tag, "softwares" | "tagCategory">;

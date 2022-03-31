@@ -1,22 +1,29 @@
 import { Response } from "express";
 import { E } from "Util";
 import * as SoftwareUsecase from "Domain/Software/Usecase";
+import { Software } from "Database/entities";
 
-type SoftwareInput = { description: string; link: string; name: string };
+type CreateDTO = {
+  software: Software;
+};
 
 export const create = async (
-  request: E.RequestBody<SoftwareInput>,
+  request: E.RequestBody<CreateDTO>,
   response: Response
 ) => {
-  const { body } = request;
+  if (!request.auth) throw new Error("Not authenticated");
 
-  //TODO: validation layer
+  const { userId } = request.auth;
+
+  const { description, link, name } = request.body.software;
 
   const createdSoftware = await SoftwareUsecase.createSoftware({
-    description: body.description,
-    link: body.link,
-    name: body.name,
-    userId: request.auth.userId,
+    software: {
+      description,
+      link,
+      name,
+    },
+    userId,
   });
 
   //TODO: presentation layer

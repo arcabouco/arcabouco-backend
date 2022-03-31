@@ -1,10 +1,7 @@
-import { getCustomRepository } from "typeorm";
-import { TagCategoryRepository } from "../Repository/TagCategory";
+import * as TagRepository from "Domain/Tag/Repository";
 
 export const listTagCategories = async () => {
-  const tagCategoryRepository = getCustomRepository(TagCategoryRepository);
-
-  const tagCategories = await tagCategoryRepository.fetchAll({});
+  const tagCategories = await TagRepository.findCategory({});
 
   return tagCategories;
 };

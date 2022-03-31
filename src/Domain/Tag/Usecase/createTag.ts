@@ -1,21 +1,18 @@
-import { getCustomRepository } from "typeorm";
-import { TagRepository } from "Domain/Tag/Repository";
+import * as TagRepository from "Domain/Tag/Repository";
+
+import * as SoftwareRepository from "Domain/Software/Repository";
+import { v4 } from "uuid";
 
 type CreateTagDTO = {
-  name: string;
+  tagName: string;
   categoryId: string;
   softwareId: string;
 };
 
 export const createTag = async (input: CreateTagDTO) => {
-  const tagRepository = getCustomRepository(TagRepository);
+  const { categoryId, softwareId, tagName } = input;
 
-  const { categoryId, name, softwareId } = input;
-
-  const tagAlreadyExists = await tagRepository.findByName(name);
-  if (tagAlreadyExists) throw new Error("Tag already exists");
-
-  const softwareTags = await tagRepository.softwareTags({
+  const softwareTags = await TagRepository.bySoftware({
     softwareId,
     categoryId,
   });
@@ -23,11 +20,28 @@ export const createTag = async (input: CreateTagDTO) => {
   const isNotMulti = !softwareTags?.[0]?.tagCategory?.isMultiTag;
   if (isNotMulti && softwareTags.length) throw new Error("Tag limit");
 
-  const tag = await tagRepository.createAndSave({
-    categoryId,
-    name,
-    softwareId,
-  });
+  const tag = await getOrCreateTag({ categoryId, tagName });
+
+  await SoftwareRepository.addTags({ softwareId, tags: [tag] });
 
   return tag;
+};
+
+const getOrCreateTag = async (input: {
+  tagName: string;
+  categoryId: string;
+}) => {
+  const { categoryId, tagName } = input;
+
+  const existingTag = await TagRepository.findByName({ categoryId, tagName });
+
+  if (existingTag) return existingTag;
+
+  const newTag = await TagRepository.createTag({
+    id: v4(),
+    name: tagName,
+    tagCategoryId: categoryId,
+  });
+
+  return newTag;
 };

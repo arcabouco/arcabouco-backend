@@ -1,5 +1,5 @@
 declare namespace Express {
   interface Request {
-    auth: import('Domain/User/Type').AuthPayload;
+    auth?: import("Domain/User/Type").AuthPayload | undefined;
   }
 }

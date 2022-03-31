@@ -1,25 +1,22 @@
 import { Request, Response } from "express";
 import * as TagUsecase from "Domain/Tag/Usecase";
+import { E } from "Util";
 
-type Body = {
+type createTagBody = {
   name: string;
-};
-
-type Param = {
   softwareId: string;
   categoryId: string;
 };
 
 export const createTag = async (
-  request: Request<Param, {}, Body>,
+  request: E.RequestBody<createTagBody>,
   response: Response
 ) => {
-  const { softwareId, categoryId } = request.params;
-  const { name } = request.body;
+  const { name, categoryId, softwareId } = request.body;
 
   const tag = await TagUsecase.createTag({
     categoryId,
-    name,
+    tagName: name,
     softwareId,
   });
 

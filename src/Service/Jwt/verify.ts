@@ -8,6 +8,6 @@ export const verify = (token: string) => {
     const payload = jwt.verify(token, secret) as User.Type.AuthPayload;
     return payload;
   } catch (error) {
-    throw new Error("Invalid token");
+    return null;
   }
 };

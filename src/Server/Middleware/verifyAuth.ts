@@ -12,6 +12,8 @@ export const verifyAuth: RequestHandler = async (request, response, next) => {
     Jwt.verify
   );
 
+  if (!authPayload) return next();
+
   const user = await UserRepository.findOneOrFail({
     where: { id: authPayload.userId, signupToken: IsNull() },
   });

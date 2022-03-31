@@ -1,14 +1,12 @@
 import { getCustomRepository } from "typeorm";
-import { SoftwareRepository } from "../Repository/SoftwareRepository";
+import * as SoftwareRepository from "Domain/Software/Repository";
 
 type GetSoftwareDTO = {
   softwareId: string;
 };
 
 export const getSoftware = async ({ softwareId }: GetSoftwareDTO) => {
-  const softwareRepository = getCustomRepository(SoftwareRepository);
-
-  const software = await softwareRepository.fetchOne({ id: softwareId });
+  const software = await SoftwareRepository.findOne({ id: softwareId });
 
   return software;
 };
