@@ -10,6 +10,9 @@ import {
 } from "typeorm";
 import { Tag, User } from "Database/entities";
 
+const softwareStatus = ["draft", "published", "analyzing"] as const;
+type SoftwareStatus = typeof softwareStatus[number];
+
 @Entity()
 export class Software {
   @PrimaryGeneratedColumn("uuid")
@@ -23,6 +26,9 @@ export class Software {
 
   @Column({ nullable: true })
   link: string;
+
+  @Column({ type: "enum", enum: softwareStatus })
+  status: SoftwareStatus;
 
   @ManyToMany((type) => Tag, (Tag) => Tag.softwares)
   tags: Tag[];

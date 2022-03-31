@@ -1,52 +1,37 @@
-import { v4 } from "uuid";
-import { AbstractRepository } from "typeorm";
+import { FindCondition, getRepository } from "typeorm";
 
-import { EntityRepository } from "typeorm";
 import { Software } from "Database/entities";
-
-type CreateAndSaveDTO = {
-  name: string;
-  description: string;
-  link: string;
-};
-
-type fetchOne = (input: { id: string }) => Promise<Software>;
 
 type findAll = (input: { tags?: string[] }) => Promise<Software[]>;
 
-@EntityRepository(Software)
-export class SoftwareRepository extends AbstractRepository<Software> {
-  createAndSave(softwareToCreate: CreateAndSaveDTO) {
-    const softwareEntity = this.repository.create(softwareToCreate);
-    softwareEntity.id = v4();
+const repository = () => getRepository(Software);
 
-    return this.repository.save(softwareEntity);
-  }
+export const create = (software: Omit<Software, "user">) =>
+  repository().create(software);
 
-  findAll: findAll = async ({ tags }) => {
-    let softwareQueryBuilder = this.createQueryBuilder(
-      "software"
-    ).leftJoinAndSelect("software.tags", "tag");
+export const findAll = async (input?: { tags?: string[] }) => {
+  const { tags } = input || {};
 
-    if (tags?.length)
-      softwareQueryBuilder.where("tag.id IN (:...tags)", { tags });
+  let builder = repository()
+    .createQueryBuilder("software")
+    .leftJoinAndSelect("software.tags", "tag");
 
-    return await softwareQueryBuilder.getMany();
-  };
+  if (tags?.length) builder.where("tag.id IN (:...tags)", { tags });
 
-  fetchOne: fetchOne = async ({ id }) =>
-    this.repository.findOneOrFail({
-      where: { id },
-      relations: ["tags", "tags.tagCategory"],
-    });
+  return await builder.getMany();
+};
 
-  async delete(input: { id: string }) {
-    const { id } = input;
-    const softwareToDelete = await this.repository.findOne(id);
+export const findOne = async (where: FindCondition<Software>) =>
+  repository().findOneOrFail({
+    where,
+    relations: ["tags", "tags.tagCategory"],
+  });
 
-    if (!softwareToDelete) throw new Error("Software to delete not exists.");
+export const remove = async (condition: FindCondition<Software>) => {
+  const softwareToDelete = await repository().findOne({ ...condition });
 
-    await this.repository.delete({ id });
-    return softwareToDelete;
-  }
-}
+  if (!softwareToDelete) throw new Error("Software to delete not exists.");
+
+  await repository().delete({ ...condition });
+  return softwareToDelete;
+};

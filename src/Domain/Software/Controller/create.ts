@@ -8,13 +8,16 @@ export const create = async (
   request: E.RequestBody<SoftwareInput>,
   response: Response
 ) => {
-  const { description, link, name } = request.body;
-
-  const software: SoftwareInput = { description, link, name };
+  const { body } = request;
 
   //TODO: validation layer
 
-  const createdSoftware = await SoftwareUsecase.createSoftware(software);
+  const createdSoftware = await SoftwareUsecase.createSoftware({
+    description: body.description,
+    link: body.link,
+    name: body.name,
+    userId: request.auth.userId,
+  });
 
   //TODO: presentation layer
 
