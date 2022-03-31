@@ -6,4 +6,4 @@ COPY . .
 RUN npm install
 RUN npm run build
 
-CMD ["npm", "run", "prod"]
+CMD npm rum prod
