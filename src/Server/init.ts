@@ -1,7 +1,7 @@
-import "express-async-errors";
 import express from "express";
 import cors from "cors";
 import { router } from "./router";
+import { errorHandler } from "Server/ErrorHandler";
 
 export const init = () => {
   const app = express();
@@ -12,6 +12,7 @@ export const init = () => {
   app.use(cors());
 
   app.use(router);
+  app.use(errorHandler);
 
   app.listen(port, () => console.log(`🚀 Server ready on port ${port}`));
 
