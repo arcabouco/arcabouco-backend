@@ -14,11 +14,11 @@ export const createTagCategory = async (
 ) => {
   if (!request.auth) throw new Error("Not authenticated");
 
-  const { description, isMultiTag, name } = request.body;
-
-  const tagCategory: TagCategoryInput = { description, isMultiTag, name };
-
-  const createdTagCategory = await TagUsecase.createTagCategory(tagCategory);
+  const createdTagCategory = await TagUsecase.createTagCategory({
+    description: request.body.description,
+    isMultiTag: request.body.isMultiTag,
+    name: request.body.name,
+  });
 
   return response.status(201).json({ tagCategory: createdTagCategory });
 };
