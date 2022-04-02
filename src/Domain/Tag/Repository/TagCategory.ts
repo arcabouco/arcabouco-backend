@@ -9,7 +9,7 @@ import {
   getRepository,
   ILike,
 } from "typeorm";
-import { TagCategory } from "Database/entities";
+import { SoftwareMin, TagCategory } from "Database/entities";
 import { Tag } from "Domain";
 import { pipe } from "fp-ts/lib/function";
 import * as R from "ramda";
@@ -36,9 +36,9 @@ export const createCategory = async (
   return newCategory;
 };
 
-export const findCategoryByName = (
-  name: string
-): Promise<TagCategoryMin | undefined> => {
+type findCategoryByName = (name: string) => Promise<TagCategoryMin | undefined>;
+
+export const findCategoryByName: findCategoryByName = (name) => {
   return repository().findOne({ where: { name: ILike(name) } });
 };
 
@@ -53,24 +53,19 @@ export const findCategory = (
   return repository().find({ ...option, relations });
 };
 
-@EntityRepository(TagCategory)
-export class TagCategoryRepository extends AbstractRepository<TagCategory> {
-  async createAndSave(tagCategory: CreateAndSaveDTO): Promise<TagCategory> {
-    const newTagCategory = this.repository.create(tagCategory);
+type findBySoftware = (
+  softwareCondition: Partial<SoftwareMin>
+) => Promise<TagCategory[]>;
 
-    newTagCategory.id = v4();
+export const findCategoryBySoftware: findBySoftware = (softwareCondition) => {
+  const query = repository()
+    .createQueryBuilder("category")
+    .leftJoinAndSelect("category.tags", "tag")
+    .leftJoin("tag.softwares", "software");
 
-    return await this.repository.save(newTagCategory);
-  }
+  Object.entries(softwareCondition).forEach(([key, value]) => {
+    query.andWhere(`software.${key} = :${key}`, { [key]: value });
+  });
 
-  fetchByName = async (name: string): Promise<TagCategory> =>
-    await this.repository
-      .createQueryBuilder()
-      .where(`name ~* :name`, { name })
-      .getOneOrFail();
-
-  fetchAll: findAll = async (findConditions) =>
-    this.repository.find({
-      where: findConditions,
-    });
-}
+  return query.getMany();
+};

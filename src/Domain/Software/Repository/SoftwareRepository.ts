@@ -57,7 +57,7 @@ export const findOne = async (
 ): Promise<Software> =>
   repository().findOneOrFail({
     where,
-    relations: ["createdBy"],
+    relations: ["user"],
   });
 
 export const remove = async (condition: FindCondition<Software>) => {
