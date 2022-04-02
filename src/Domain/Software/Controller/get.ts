@@ -7,7 +7,9 @@ export const get = async (
 ) => {
   const { softwareId } = request.params;
 
-  const software = await SoftwareUsecase.getSoftware({ softwareId });
+  const { categories, software } = await SoftwareUsecase.getSoftware({
+    softwareId,
+  });
 
-  return response.json({ software });
+  return response.json({ software, categories });
 };
