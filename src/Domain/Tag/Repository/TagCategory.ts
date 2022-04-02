@@ -4,6 +4,7 @@ import {
   AbstractRepository,
   EntityRepository,
   FindConditions,
+  FindManyOptions,
   FindOneOptions,
   getRepository,
   ILike,
@@ -45,11 +46,11 @@ export const findOneCategory = (option: FindOneOptions<TagCategory>) =>
   repository().findOne(option);
 
 export const findCategory = (
-  option: FindOneOptions<TagCategory>
-): Promise<TagCategoryMin> => {
+  option: FindManyOptions<TagCategory>
+): Promise<TagCategoryMin[]> => {
   const relations = pipe([...(option.relations || []), "tags"], R.uniq);
 
-  return repository().findOneOrFail({ ...option, relations });
+  return repository().find({ ...option, relations });
 };
 
 @EntityRepository(TagCategory)
