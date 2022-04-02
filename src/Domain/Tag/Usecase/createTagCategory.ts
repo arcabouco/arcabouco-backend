@@ -14,6 +14,7 @@ export const createTagCategory = async (input: {
     id: v4(),
     isMultiTag: input.isMultiTag,
     name: input.name,
+    description: input.description,
   });
 
   return createdTagCategory;
