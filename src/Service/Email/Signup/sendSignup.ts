@@ -1,6 +1,3 @@
-// import { config } from "dotenv";
-// config();
-
 import handlebars from "handlebars";
 
 import fs from "fs";
@@ -24,12 +21,7 @@ const signupTemplate = pipe(
 
 export const signupSend = (data: SignupTemplate) => {
   const html = signupTemplate(data);
-  const subject = "Signing Request";
+  const subject = "Confirmação de cadatro - Arcabouço";
 
   return AwsSes.sendEmail({ html, subject, to: [data.user.email] });
 };
-
-// signupSend({
-//   user: { name: "jon", email: "gamerjonasbr@gmail.com" },
-//   confirmationUrl: "https://google.com",
-// });
