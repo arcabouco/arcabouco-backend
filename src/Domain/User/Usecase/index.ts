@@ -4,3 +4,4 @@ export * from "./login";
 export * from "./requestRecovery";
 export * from "./recoverPassword";
 export * from "./verifyEmail";
+export * from "./getUser";
