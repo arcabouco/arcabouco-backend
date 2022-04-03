@@ -9,4 +9,6 @@ router.post("/auth/login", UserController.login);
 router.post("/auth/password/request", UserController.requestRecovery);
 router.post("/auth/password/recover", UserController.recoverPassword);
 
+router.get("/user/email/:email", UserController.verifyEmail);
+
 export { router as UserRouter };
