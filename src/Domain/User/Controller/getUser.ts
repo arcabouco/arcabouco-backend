@@ -9,10 +9,12 @@ export const getUser = async (request: Request, response: Response) => {
   });
 
   return response.json({
-    id,
-    name,
-    lastName,
-    email,
-    role,
+    user: {
+      id,
+      name,
+      lastName,
+      email,
+      role,
+    },
   });
 };
