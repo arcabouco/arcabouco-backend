@@ -1,13 +1,13 @@
 import { string } from "fp-ts";
 import * as UserRepository from "Domain/User/Repository";
 import { Bcrypt, Jwt } from "Service";
-import { IsNull } from "typeorm";
+import { ILike, IsNull } from "typeorm";
 
 export const login = async (input: { email: string; password: string }) => {
   const { email, password } = input;
 
   const user = await UserRepository.findOneOrFail({
-    where: { email, signupToken: IsNull() },
+    where: { email: ILike(email), signupToken: IsNull() },
   });
 
   const isValidPassword = Bcrypt.compare({

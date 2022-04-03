@@ -21,7 +21,7 @@ const signupTemplate = pipe(
 
 export const signupSend = (data: SignupTemplate) => {
   const html = signupTemplate(data);
-  const subject = "Confirmação de cadatro - Arcabouço";
+  const subject = "Confirmação de cadastro - Arcabouço";
 
   return AwsSes.sendEmail({ html, subject, to: [data.user.email] });
 };

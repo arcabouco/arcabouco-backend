@@ -9,7 +9,12 @@ import { P } from "Util";
 import { ILike } from "typeorm";
 import queryString from "query-string";
 
-export const signup = async (inputUser: User) => {
+export const signup = async (inputUser: {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+}) => {
   const STRING_LENGTH_TO_BYTES = 2;
   const tokenLength = 18;
 
