@@ -5,10 +5,11 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Tag, User } from "Database/entities";
+import { Tag, User, SoftwareImage } from "Database/entities";
 
 const softwareStatus = ["draft", "published", "analyzing"] as const;
 type SoftwareStatus = typeof softwareStatus[number];
@@ -40,6 +41,9 @@ export class Software {
   @JoinColumn({ name: "createdBy" })
   user: User;
 
+  @OneToMany((type) => SoftwareImage, (SoftwareImage) => SoftwareImage.software)
+  images: SoftwareImage[];
+
   @CreateDateColumn()
   createdAt?: Date;
 
@@ -47,4 +51,4 @@ export class Software {
   updatedAt?: Date;
 }
 
-export type SoftwareMin = Omit<Software, "tags" | "user">;
+export type SoftwareMin = Omit<Software, "tags" | "user" | "images">;

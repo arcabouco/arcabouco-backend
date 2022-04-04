@@ -7,6 +7,14 @@ const router = Router();
 router.get("/softwares", SoftwareController.list);
 router.get("/softwares/:softwareId", SoftwareController.get);
 
-router.post("/softwares", multer().array("images"), SoftwareController.create);
+router.post(
+  "/softwares",
+  multer({
+    limits: {
+      fileSize: 10 * 1024 * 1024,
+    },
+  }).array("images"),
+  SoftwareController.create
+);
 
 export { router as softwareRouter };

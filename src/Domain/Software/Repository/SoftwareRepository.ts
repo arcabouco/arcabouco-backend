@@ -46,7 +46,8 @@ export const findAll = async (input?: {
   let builder = repository()
     .createQueryBuilder("software")
     .leftJoinAndSelect("software.user", "user")
-    .leftJoinAndSelect("software.tags", "tags");
+    .leftJoinAndSelect("software.tags", "tags")
+    .leftJoinAndSelect("software.images", "image");
 
   if (tags?.length) builder.where("tag.id IN (:...tags)", { tags });
 
@@ -56,7 +57,10 @@ export const findAll = async (input?: {
 export const findOne = async (
   option: FindOneOptions<Software>
 ): Promise<Software> => {
-  const relations = pipe([...(option.relations || []), "user"], R.uniq);
+  const relations = pipe(
+    [...(option.relations || []), "user", "images"],
+    R.uniq
+  );
   const software = await repository().findOneOrFail({ ...option, relations });
 
   return software;

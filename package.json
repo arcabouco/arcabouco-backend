@@ -47,6 +47,7 @@
     "faker": "^5.5.3",
     "fp-ts": "^2.11.5",
     "handlebars": "^4.7.7",
+    "image-size": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.4",
     "pg": "^8.7.1",
