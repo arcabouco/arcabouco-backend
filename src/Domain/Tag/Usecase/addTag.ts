@@ -3,13 +3,11 @@ import * as TagRepository from "Domain/Tag/Repository";
 import * as SoftwareRepository from "Domain/Software/Repository";
 import { v4 } from "uuid";
 
-type CreateTagDTO = {
+export const addTag = async (input: {
   tagName: string;
   categoryId: string;
   softwareId: string;
-};
-
-export const createTag = async (input: CreateTagDTO) => {
+}) => {
   const { categoryId, softwareId, tagName } = input;
 
   const softwareTags = await TagRepository.bySoftware({
