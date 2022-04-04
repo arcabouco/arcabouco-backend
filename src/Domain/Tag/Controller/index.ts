@@ -1,3 +1,3 @@
 export * from "./createTagCategory";
-export * from "./createTag";
+export * from "./addTag";
 export * from "./listTagCategories";

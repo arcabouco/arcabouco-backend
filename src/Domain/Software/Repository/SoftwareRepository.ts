@@ -1,9 +1,10 @@
-import { FindCondition, getRepository } from "typeorm";
+import { FindCondition, FindOneOptions, getRepository } from "typeorm";
 
 import { Software, SoftwareMin, Tag, TagMin, User } from "Database/entities";
 
 import * as R from "ramda";
 import { pipe } from "fp-ts/lib/function";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 type findAll = (input: { tags?: string[] }) => Promise<Software[]>;
 
@@ -53,12 +54,13 @@ export const findAll = async (input?: {
 };
 
 export const findOne = async (
-  where: FindCondition<Software>
-): Promise<Software> =>
-  repository().findOneOrFail({
-    where,
-    relations: ["user"],
-  });
+  option: FindOneOptions<Software>
+): Promise<Software> => {
+  const relations = pipe([...(option.relations || []), "user"], R.uniq);
+  const software = await repository().findOneOrFail({ ...option, relations });
+
+  return software;
+};
 
 export const remove = async (condition: FindCondition<Software>) => {
   const softwareToDelete = await repository().findOne({ ...condition });
@@ -67,4 +69,14 @@ export const remove = async (condition: FindCondition<Software>) => {
 
   await repository().delete({ ...condition });
   return softwareToDelete;
+};
+
+export const update = async (software: Partial<SoftwareMin>) => {
+  await repository().update({ id: software.id }, software);
+
+  const updatedSoftware = await repository().findOneOrFail(software.id, {
+    relations: ["user"],
+  });
+
+  return updatedSoftware;
 };

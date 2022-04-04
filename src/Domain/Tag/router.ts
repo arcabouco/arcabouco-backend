@@ -6,6 +6,6 @@ const router = Router();
 router.post("/categories", TagController.createTagCategory);
 router.get("/categories", TagController.listTagCategories);
 
-router.post("/tags", TagController.createTag);
+router.post("/tags", TagController.addTag);
 
 export { router as TagRouter };

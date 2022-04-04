@@ -7,7 +7,7 @@ type GetSoftwareDTO = {
 };
 
 export const getSoftware = async ({ softwareId }: GetSoftwareDTO) => {
-  const software = SoftwareRepository.findOne({ id: softwareId });
+  const software = SoftwareRepository.findOne({ where: { id: softwareId } });
   const categories = TagRepository.findCategoryBySoftware({ id: softwareId });
 
   return { software: await software, categories: await categories };

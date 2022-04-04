@@ -4,19 +4,14 @@ import { E } from "Util";
 import * as UserUsecase from "Domain/User/Usecase";
 import * as Yup from "yup";
 
-type SignupBody = {
-  email: string;
-  password: string;
-  name: string;
-  lastName: string;
-};
-
 const bodySchema = Yup.object({
   email: Yup.string().email().required(),
   password: Yup.string().min(8).required(),
   name: Yup.string().required(),
   lastName: Yup.string().required(),
 });
+
+type SignupBody = Yup.InferType<typeof bodySchema>;
 
 export const signup = async (
   request: E.RequestBody<SignupBody>,
