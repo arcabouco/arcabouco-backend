@@ -25,6 +25,8 @@ export const create = async (
 
   const files = request.files instanceof Array ? request.files : [];
 
+  console.log(files)
+
   const createdSoftware = await SoftwareUsecase.createSoftware({
     software,
     userId,

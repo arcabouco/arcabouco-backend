@@ -44,7 +44,7 @@ export const signup = async (inputUser: {
     id: newUser.id,
   });
 
-  const confirmationUrl = `https://arcabouco.org/app/confirm?${confirmatilUrlParam}`;
+  const confirmationUrl = `https://arcabouco.org/app/auth/signup/confirm?${confirmatilUrlParam}`;
 
   return pipe(
     newUser,
