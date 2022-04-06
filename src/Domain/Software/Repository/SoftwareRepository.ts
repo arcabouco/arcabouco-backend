@@ -4,9 +4,6 @@ import { Software, SoftwareMin, Tag, TagMin, User } from "Database/entities";
 
 import * as R from "ramda";
 import { pipe } from "fp-ts/lib/function";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-
-type findAll = (input: { tags?: string[] }) => Promise<Software[]>;
 
 const repository = () => getRepository(Software);
 
@@ -34,13 +31,16 @@ export const addTags = async (input: {
   return repository().save(software);
 };
 
-export const findAll = async (input?: {
+type findAll = (input?: {
   tags?: string[];
-}): Promise<
+  software?: Partial<SoftwareMin>;
+}) => Promise<
   (Software & {
-    tags: Omit<Tag, "softwares" | "tagCategory">[];
+    tags: TagMin[];
   })[]
-> => {
+>;
+
+export const findAll: findAll = async (input) => {
   const { tags } = input || {};
 
   let builder = repository()
@@ -48,6 +48,10 @@ export const findAll = async (input?: {
     .leftJoinAndSelect("software.user", "user")
     .leftJoinAndSelect("software.tags", "tag")
     .leftJoinAndSelect("software.images", "image");
+
+  Object.entries(input?.software || {}).forEach(([key, value]) =>
+    builder.where(`software.${key} = :${key}`, { [key]: value })
+  );
 
   if (tags?.length) builder.where("tag.id IN (:...tags)", { tags });
 
@@ -58,7 +62,7 @@ export const findOne = async (
   option: FindOneOptions<Software>
 ): Promise<Software> => {
   const relations = pipe(
-    [...(option.relations || []), "user", "images"],
+    [...(option.relations || []), "user", "images", "tags"],
     R.uniq
   );
   const software = await repository().findOneOrFail({ ...option, relations });

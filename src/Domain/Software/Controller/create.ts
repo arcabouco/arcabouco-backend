@@ -11,6 +11,7 @@ const createSoftwareBodySchema = Yup.object({
 
 import * as R from "ramda";
 import { pipe } from "fp-ts/lib/function";
+import { Email } from "Service";
 
 type CreateSoftwareBody = Yup.InferType<typeof createSoftwareBodySchema>;
 
@@ -24,8 +25,6 @@ export const create = async (
   const software = createSoftwareBodySchema.validateSync(request.body);
 
   const files = request.files instanceof Array ? request.files : [];
-
-  console.log(files)
 
   const createdSoftware = await SoftwareUsecase.createSoftware({
     software,
