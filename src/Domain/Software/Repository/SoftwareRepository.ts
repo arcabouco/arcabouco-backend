@@ -46,7 +46,7 @@ export const findAll = async (input?: {
   let builder = repository()
     .createQueryBuilder("software")
     .leftJoinAndSelect("software.user", "user")
-    .leftJoinAndSelect("software.tags", "tags")
+    .leftJoinAndSelect("software.tags", "tag")
     .leftJoinAndSelect("software.images", "image");
 
   if (tags?.length) builder.where("tag.id IN (:...tags)", { tags });

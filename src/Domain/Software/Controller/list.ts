@@ -2,18 +2,24 @@ import { Request, Response } from "express";
 import * as SoftwareUsecase from "Domain/Software/Usecase";
 import * as Yup from "yup";
 import { E } from "Util";
+import { pipe } from "fp-ts/lib/function";
 
-const listSoftwareBodySchema = Yup.object({
-  tags: Yup.array().of(Yup.string().uuid().required()),
-});
+type ListSoftwareQuery = {
+  tags?: string | string[];
+};
 
-type ListSoftwareBody = Yup.InferType<typeof listSoftwareBodySchema>;
-
+const listSoftwareTagsSchema = Yup.array().of(Yup.string().uuid().required());
 export const list = async (
-  request: E.RequestBody<ListSoftwareBody>,
+  request: Request<{}, {}, {}, ListSoftwareQuery>,
   response: Response
 ) => {
-  const { tags } = listSoftwareBodySchema.validateSync(request.body);
+  const tags = pipe(
+    request.query.tags,
+    (tags) => (tags ? tags : []),
+    (tags) => (Array.isArray(tags) ? tags : [tags])
+  );
+
+  listSoftwareTagsSchema.validateSync(tags);
 
   const softwares = await SoftwareUsecase.listSoftwares({ tags });
 
