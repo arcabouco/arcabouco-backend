@@ -53,7 +53,10 @@ export const findAll: findAll = async (input) => {
     builder.where(`software.${key} = :${key}`, { [key]: value })
   );
 
-  if (tags?.length) builder.where("tag.id IN (:...tags)", { tags });
+  if (tags?.length)
+    tags.map((tag) => builder.andWhere(`tag.name = :tag`, { tag }));
+
+  // builder.where("tag.id IN (:...tags)", { tags });
 
   return builder.getMany();
 };
