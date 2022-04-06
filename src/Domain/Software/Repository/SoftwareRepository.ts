@@ -54,7 +54,7 @@ export const findAll: findAll = async (input) => {
   );
 
   if (tags?.length)
-    tags.map((tag) => builder.andWhere(`tag.name = :tag`, { tag }));
+    tags.map((tag) => builder.andWhere(`tag.id = :tag`, { tag }));
 
   // builder.where("tag.id IN (:...tags)", { tags });
 
